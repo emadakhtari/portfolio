@@ -75,14 +75,14 @@ Ensure you have the following installed before proceeding:
 
 
 ### 2️⃣ Run Development Server
-npm run dev
+- npm run dev
 
 ### 3️⃣ Build and Preview Production
 **Create a production build:**
-npm run build
+- npm run build
 
 **Preview it locally:**
-npm start
+- npm start
 
 ---
 
