@@ -70,8 +70,9 @@ Ensure you have the following installed before proceeding:
 ## 🛠 Installation
 
 ### 1️⃣ Clone the Repository
-git clone https://github.com/emadakhtari/portfolio.git
-cd portfolio
+- git clone https://github.com/emadakhtari/portfolio.git
+- cd portfolio
+
 
 ### 2️⃣ Run Development Server
 npm run dev
