@@ -1,0 +1,746 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* your custom CSS continues below… */
+
+
+/* Fallbacks; final values injected from layout via CSS vars */
+:root {
+  --bg: #ffffff;
+  --text: #000000;
+  --accent: #ffb400;
+  --selection-bg: #ffb400;
+  --selection-text: #ffffeff;
+  --icon: #ffffff;
+  --dark: #111111;
+  --white: #ffffff;
+  --bm-h: 88px;
+
+  --sb-track: #eeeeee;
+  --sb-thumb: #666666;
+  --border-active: #2b2a2a;
+  scroll-behavior: smooth;
+}
+
+
+body {
+  scroll-behavior: smooth;
+}
+
+/* WHITE THEME */
+html.light {
+  --bg: #ffffff;
+  --text: #666666;
+  --heading: #ffb400;
+  /* name line */
+  --menu-bg: #eeeeee;
+  --menu-active: #ffb400;
+  --home-muted: #666666;
+  /* 2nd + 3rd hero lines on white */
+  --about-muted: #616161;
+  /* 'ABOUT' in dialog title on white */
+  --resume-text: rgba(30, 37, 48, .07);
+
+}
+
+/* BLACK THEME */
+html.dark {
+  --bg: #111111;
+  --text: #ffffff;
+  --heading: #ffb400;
+  --menu-bg: #2b2a2a;
+  --menu-active: #ffb400;
+  --home-muted: #ffffff;
+  /* 2nd + 3rd hero lines on black */
+  --about-muted: #ffffff;
+  /* 'ABOUT' in dialog title on black */
+  --resume-text: hsla(0, 0%, 100%, .07);
+
+}
+
+/* Dark theme */
+.dark,
+.dark :root {
+  --sb-track: #2b2a2a;
+  --sb-thumb: #707070;
+}
+
+
+/* ---------- Firefox ---------- */
+html,
+html * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+
+/* ---------- WebKit (Chrome, Safari, Edge) ---------- */
+html::-webkit-scrollbar,
+html *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html::-webkit-scrollbar-track,
+html *::-webkit-scrollbar-track {
+  background: var(--sb-track);
+}
+
+html::-webkit-scrollbar-thumb,
+html *::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border-radius: 8px;
+  border: 2px solid var(--sb-track);
+  /* creates spacing around thumb */
+}
+
+/* Any nested scrollable element (e.g., dialogs, panels) */
+html.themed-scroll *::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.themed-scroll *::-webkit-scrollbar-track {
+  background: var(--sb-track);
+}
+
+html.themed-scroll *::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb);
+  border-radius: 10px;
+  border: 2px solid var(--sb-track);
+}
+
+
+.font-weight-normal {
+  font-weight: normal !important;
+}
+
+/* (Optional) opt-out: add class="scrollbar-default" on a container */
+.scrollbar-default,
+.scrollbar-default * {
+  scrollbar-width: auto !important;
+}
+
+.scrollbar-default::-webkit-scrollbar,
+.scrollbar-default *::-webkit-scrollbar {
+  width: initial !important;
+  height: initial !important;
+}
+
+
+/* Show the correct theme icon without conditional rendering (prevents hydration mismatch) */
+.icon-sun {
+  display: none;
+}
+
+.icon-moon {
+  display: none;
+}
+
+html.light .icon-sun {
+  display: block;
+}
+
+html.light .icon-moon {
+  display: none;
+}
+
+html.dark .icon-sun {
+  display: none;
+}
+
+html.dark .icon-moon {
+  display: block;
+}
+
+
+
+
+/* Selection color (both themes) */
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+.name-font-home::selection {
+  color: #ffffff;
+}
+
+/* ================================
+   LEFT YELLOW ACCENT (correct silhouette)
+   - 10% of viewport width at TOP
+   - 20% of viewport width at BOTTOM
+   - single trapezoid using clip-path
+   ================================= */
+.left-accent {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #ffb400;
+  /* Accent yellow */
+
+  /* Bottom width ≈ 20% of viewport with clamps for responsiveness */
+  width: min(max(23vw, 140px), 331px);
+
+  /* Trapezoid shape: top is 50% of the element's width (≈ 10% viewport) */
+  clip-path: polygon(0 0, 50% 0, 100% 100%, 0 100%);
+}
+
+/* Slight adjustment for smaller desktops */
+@media (max-width: 1280px) {
+  .left-accent {
+    width: min(max(18vw, 120px), 280px);
+    clip-path: polygon(0 0, 56% 0, 100% 100%, 0 100%);
+  }
+}
+
+
+/* ================================
+   RIGHT MENU — fixed position, expands right→left
+   Icon & label move; label sits to the LEFT of the icon on hover
+   ================================= */
+.menu-pill {
+  @apply relative flex items-center justify-end rounded-full overflow-hidden transition-all duration-300;
+  height: 48px;
+  width: 48px;
+  /* default: circle */
+  background: var(--menu-bg);
+  will-change: width, transform;
+}
+
+.menu-pill:hover {
+  width: 168px;
+  /* expanded width */
+  background: var(--menu-active);
+  color: black;
+}
+
+.menu-icon {
+  @apply grid h-12 w-12 place-items-center shrink-0 transition-transform duration-300;
+  /* starts centered within the 48px circle area */
+  transform: translateX(0);
+}
+
+/* Label is placed BEFORE the icon in markup; we right-align the pill,
+   so the label appears to the LEFT of the icon when visible. */
+.menu-label {
+  @apply text-sm whitespace-nowrap opacity-0 transition-all duration-300;
+  transform: translateX(16px);
+  /* slightly tucked under the icon initially */
+  margin-right: 8px;
+  /* gap between label and icon when expanded */
+}
+
+/* Hover: icon slides left into the expanded space; label fades/slides in */
+.menu-pill:hover .menu-icon {
+  transform: translateX(-12px);
+}
+
+.menu-pill:hover .menu-label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Active state stays expanded color-wise (width remains per state/hover) */
+.menu-pill.is-active {
+  background: var(--menu-active);
+  color: black;
+}
+
+
+
+/* ================================
+   HERO TYPOGRAPHY
+   ================================= */
+.h1-51 {
+  font-size: 51px;
+  line-height: 1.05;
+}
+
+.hero-dash {
+  width: 48px;
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--accent);
+}
+
+/* ================================
+   DIALOG (Radix) — Tailwind-safe (no @apply with arbitrary values)
+   ================================= */
+
+/* Overlay */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.dialog-overlay[data-state="open"] {
+  animation: overlay-in 180ms ease-out;
+}
+
+/* Content */
+.dialog-content {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 99;
+  transform: translate(-50%, -50%);
+  /* ⬇️ use plain CSS instead of @apply w-[min(920px,92vw)] */
+  width: min(920px, 92vw);
+  /* ⬇️ replace @apply rounded-2xl shadow-2xl outline-none */
+  border-radius: 1rem;
+  /* ≈ rounded-2xl */
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  /* ≈ shadow-2xl */
+  outline: none;
+  background: var(--bg);
+}
+
+.dialog-content[data-state="open"] {
+  /* ⬇️ don't use @apply data-[state=open]:animate-dialog-in */
+  animation: dialog-in 1000ms cubic-bezier(.16, 1, .3, 1);
+}
+
+/* Keyframes (keep or adjust as you like) */
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 24px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* Theme toggle — show/hide icons by theme, set colors & hover opacity */
+.theme-btn {
+  position: fixed;
+  right: 20px;
+  top: 16px;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: opacity 200ms ease;
+}
+
+
+
+/* default: hide both icons; theme classes decide visibility */
+.icon-sun,
+.icon-moon {
+  display: none;
+}
+
+/* Black theme (dark): sun visible, button bg + icon color #4b4b4b */
+html.dark .theme-btn {
+  background-color: #4b4b4b;
+  border-color: #4b4b4b;
+}
+
+html.dark .icon-sun {
+  display: block;
+  color: #ffffff;
+  /* lucide uses currentColor for stroke */
+}
+
+html.dark .icon-moon {
+  display: none;
+}
+
+html.dark .theme-btn:hover {
+  background: #ffb400;
+  color: black;
+}
+
+html.light .theme-btn:hover {
+  background: #ffb400;
+  color: black;
+}
+
+/* White theme (light): moon visible, button bg #eee, icon #666 */
+html.light .theme-btn {
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+}
+
+html.light .icon-moon {
+  display: block;
+  color: #666666;
+}
+
+html.light .icon-sun {
+  display: none;
+}
+
+/* Theme-specific icon base color */
+html.dark {
+  --bm-icon: #d8d8d8;
+}
+
+/* light icon on dark bg */
+html.light {
+  --bm-icon: #666666;
+}
+
+/* darker icon on light bg */
+
+/* Outer container (the rounded bar) */
+.bottom-menu {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 40;
+  border-radius: 35px;
+  background: var(--white);
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, .45);
+  padding: 0 16px !important;
+  width: min(calc(100% - 24px), 900px);
+  /* 12px side gutters; tweak if you like */
+}
+
+/* Inner inset panel for the lighter strip in your mock */
+.bottom-menu__inner {
+  border-radius: 35px;
+  padding: 0 !important;
+  /* subtle tint; tweak alphas if you want more/less contrast */
+  background: var(--white) !important;
+}
+
+.bottom-menu__list {
+  display: flex !important;
+}
+
+.bottom-menu__list:is(.dark *) {
+  background: var(--menu-bg) !important;
+}
+
+.bottom-menu__list:is(.light *) {
+  background: var(--white) !important;
+}
+
+html.dark .bottom-menu__inner {
+  background: var(--menu-bg) !important;
+}
+
+/* The circular buttons (constant size) */
+.bottom-btn {
+  display: grid;
+  place-items: center;
+  height: 48px;
+  width: 48px;
+  /* <- stays constant */
+  border-radius: 9999px;
+  background: color-mix(in srgb, #ffffff 12%, transparent);
+  color: var(--bm-icon);
+  /* lucide uses currentColor for stroke */
+  transition: background-color .18s ease, color .18s ease, opacity .18s ease;
+  @apply fixed inset-x-0 z-50;
+  @apply relative grid h-12 w-12 place-items-center rounded-full transition outline-none text-neutral-700 dark:text-neutral-300;
+  /* ← add relative */
+}
+
+/* dark theme default circle tint */
+html.dark .bottom-btn {
+  background: color-mix(in srgb, #000000 24%, transparent);
+}
+
+/* Hover + active: only color changes (no transform/width change) */
+
+.bottom-btn:hover {
+  @apply bg-[var(--accent)] text-white shadow-lg ring-2 ring-[var(--accent)];
+}
+
+.bottom-btn:focus-visible {
+  @apply bg-[var(--accent)] text-white shadow-lg;
+}
+
+/* 🔥 ACTIVE STATE: “lit up” like main menu (uses your CSS vars) */
+.bottom-btn.is-active {
+  @apply bg-[var(--accent)] !important;
+  @apply text-white shadow-lg ring-2 ring-[var(--accent)];
+}
+
+/* Optional: tiny glow on active for more pop */
+.bottom-btn.is-active::after {
+  @apply absolute inset-0 rounded-full pointer-events-none;
+  /* ← add pointer-events-none */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+
+  @apply bg-[var(--accent)] text-white shadow-lg ring-2 ring-[var(--accent)];
+}
+
+.bottom-menu {
+  @apply bg-white dark:bg-[#0d0d0d];
+  padding: 0 !important;
+
+}
+
+html .bottom-menu__inner {
+  justify-content: center;
+  display: flex;
+}
+
+/* Keep spacing even */
+.bottom-menu__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  @apply grid grid-cols-5 gap-3 p-2;
+  /* glass background that adapts to theme */
+
+}
+
+.close-dialog-icon {
+  border-width: 1px;
+}
+
+html.light .hover-white-href:hover {
+  color: #ffb400;
+}
+
+html.dark .hover-white-href:hover {
+  color: #ffb400;
+}
+
+html.light .hover-yellow-href:hover {
+
+  color: #616161;
+}
+
+html.dark .hover-yellow-href:hover {
+  color: #ffffff;
+}
+
+.dialog-cloce {}
+
+.theme-btn-dialog-cloce {
+  position: absolute;
+  right: 20px;
+  top: 16px;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: opacity 200ms ease;
+}
+
+html.dark .theme-btn-dialog-cloce {
+  background-color: #4b4b4b;
+  border-color: #4b4b4b;
+}
+
+html.dark .theme-btn-dialog-cloce:hover {
+  background: #ffb400;
+  color: black;
+}
+
+html.light .theme-btn-dialog-cloce {
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+}
+
+html.light .theme-btn-dialog-cloce:hover {
+  background: #ffb400;
+  color: black;
+}
+
+
+
+/* --- Skeleton (light/dark aware) --- */
+@layer utilities {
+  .skeleton-base {
+    @apply relative overflow-hidden bg-neutral-200/80 dark:bg-neutral-800/80;
+  }
+
+  .skeleton-base::after {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inline-size: 60%;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.6),
+        transparent);
+    animation: skeleton-shimmer 1.25s infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes skeleton-shimmer {
+    100% {
+      transform: translateX(160%);
+    }
+  }
+}
+
+
+/* --- Contact Page --- */
+
+.contact-main {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.contact-index {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}
+
+.poppins-font {
+  font-family: "Poppins";
+}
+
+
+
+/* Make any SVG file from /public act like a stencil you can color with currentColor */
+.svg-mask {
+  display: inline-block;
+  background-color: currentColor;
+  /* color comes from text color */
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
+/* A helper class where you set the actual file as the mask */
+.svg-user {
+  mask-image: url("/icons/UserSvg.svg");
+  -webkit-mask-image: url("/icons/UserSvg.svg");
+}
+
+.svg-subject {
+  mask-image: url("/icons/SubjectSvg.svg");
+  -webkit-mask-image: url("/icons/SubjectSvg.svg");
+}
+
+.svg-email {
+  mask-image: url("/icons/EmailSvg.svg");
+  -webkit-mask-image: url("/icons/EmailSvg.svg");
+}
+
+.svg-write {
+  mask-image: url("/icons/WriteSvg.svg");
+  -webkit-mask-image: url("/icons/WriteSvg.svg");
+}
+
+.svg-map {
+  mask-image: url("/icons/MapSvg.svg");
+  -webkit-mask-image: url("/icons/MapSvg.svg");
+}
+
+.contact-svg-map {
+  height: 33px !important;
+  width: 33px !important;
+  top: 0.3rem;
+  left: 0;
+}
+
+.svg-email-contact {
+  mask-image: url("/icons/EmailContactSvg.svg");
+  -webkit-mask-image: url("/icons/EmailContactSvg.svg");
+}
+
+.contact-svg-email {
+  height: 36px !important;
+  width: 36px !important;
+  top: 0.3rem;
+  left: 0;
+}
+
+.svg-phone-contact {
+  mask-image: url("/icons/PhoneSvg.svg");
+  -webkit-mask-image: url("/icons/PhoneSvg.svg");
+}
+
+.contact-svg-phone {
+  height: 36px !important;
+  width: 36px !important;
+  top: 0.3rem;
+  left: 0;
+}
+
+.svg-github-contact {
+  mask-image: url("/icons/GithubSvg.svg");
+  -webkit-mask-image: url("/icons/GithubSvg.svg");
+}
+
+.contact-svg-github {
+  height: 23px !important;
+  width: 23px !important;
+}
+
+.svg-whatsup-contact {
+  mask-image: url("/icons/WhatsappSVG.svg");
+  -webkit-mask-image: url("/icons/WhatsappSVG.svg");
+}
+
+.svg-telegram-contact {
+  mask-image: url("/icons/TelegramSVG.svg");
+  -webkit-mask-image: url("/icons/TelegramSVG.svg");
+}
+
+/* .contact-svg-whatsup {
+  height: 23px !important;
+  width: 23px !important;
+} */
+
+/* contact Us Social */
+
+
+.contact-inner {
+  padding: 1rem 0 1rem 0 !important;
+}
+
+.contact-inner-list {
+  display: flex !important;
+  justify-content: space-around;
+}
+
+.contact-btn {
+  position: relative !important;
+  right: 0 !important;
+  top: 0 !important;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  width: 44px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: opacity 200ms ease;
+}
+
+.contact-btn i {
+  height: 44px;
+  width: 44px;
+  display: block;
+}
