@@ -1,6 +1,7 @@
-<p align="center">'
+<p align="center">
 <img src="https://i.postimg.cc/VsZ1T7Yj/favicon.png" alt="Logo" width="80">
-<hr/>
+</p>
+<p align="center">
   
 # 🌟 Senior Full Stack Developer Portfolio  
 </p>
@@ -14,18 +15,17 @@ A fully dynamic and responsive **Next.js** portfolio showcasing the skills and e
 ## 📋 Table of Contents  
 1. [Features](#-features)  
 2. [Tech Stack](#-tech-stack)  
-3. [Screenshots](#-screenshots)  
-4. [Requirements](#-requirements)  
-5. [Installation](#-installation)  
-6. [Install Dependencies](#-install-dependencies)  
-7. [Run Development Server](#-run-development-server)  
-8. [Build for Production](#-build-for-production)  
-9. [Project Structure](#-project-structure)  
-10. [Available Scripts](#-available-scripts)  
-11. [Customization](#-customization)  
-12. [Deployment](#-deployment)  
-13. [License](#-license)  
-14. [About the Developer](#-about-the-developer)  
+3. [Requirements](#-requirements)  
+4. [Installation](#-installation)  
+5. [Install Dependencies](#-install-dependencies)  
+6. [Run Development Server](#-run-development-server)  
+7. [Build for Production](#-build-for-production)  
+8. [Project Structure](#-project-structure)  
+9. [Available Scripts](#-available-scripts)  
+10. [Customization](#-customization)  
+11. [Deployment](#-deployment)  
+12. [License](#-license)  
+13. [About the Developer](#-about-the-developer)  
 
 ---
 
