@@ -1,5 +1,5 @@
 <p align="center">'
-<img src="https://github.com/emadakhtari/portfolio/tree/main/public/favicon.png" alt="Logo" width="80">
+<img src="https://github.com/emadakhtari/portfolio/blob/main/src/assets/images/favicon.png" alt="Logo" width="80">
 <hr/>
   
 # 🌟 Senior Full Stack Developer Portfolio  
