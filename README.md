@@ -53,7 +53,7 @@ A fully dynamic and responsive **Next.js** portfolio showcasing the skills and e
 </p>
 
 <p align="center" style="padding-bottom: 10;">
-<img src='https://i.postimg.cc/2y1JY440/portfolio-dark.jpg' border='0' width="500" alt='diption'/>
+<img src='https://i.postimg.cc/2y1JY440/portfolio-light.jpg' border='0' width="500" alt='diption'/>
 </p>
 
 ---
