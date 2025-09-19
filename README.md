@@ -88,14 +88,15 @@ Ensure you have the following installed before proceeding:
 
 ## 📁 Project Structure
 
-portfolio/
-├── components/        # Reusable UI components  
-├── pages/             # Next.js pages and routing  
-├── public/            # Static files (images, icons, etc.)  
-├── styles/            # Global styles and Tailwind configuration  
-├── data/              # Dynamic content (projects, experience, etc.)  
-├── package.json       # Project metadata and scripts  
-└── tailwind.config.js # Tailwind CSS configuration  
+    portfolio/
+    │
+    ├── components/           # Reusable UI components
+    ├── pages/                # Next.js pages and routing  
+    ├── public/               # Static files (images, icons, etc.)
+    ├── styles/               # Global styles and Tailwind configuration
+    ├── data/                 # Project metadata and scripts
+    ├── package.json          # Tailwind CSS configuration
+
 
 
 ---
