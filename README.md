@@ -1,12 +1,10 @@
 <p align="center">
 <img src="https://i.postimg.cc/VsZ1T7Yj/favicon.png" alt="Logo" width="80">
 </p>
-<p align="center">
+<h1 align="center">
   
 # 🌟 Senior Full Stack Developer Portfolio  
-</p>
-
-<hr/>
+</h1>
 
 A fully dynamic and responsive **Next.js** portfolio showcasing the skills and experience of a **Senior Full Stack Developer**. Built with **Tailwind CSS** for rapid styling and modern design, the portfolio includes **smooth animations**, **lazy loading of sections on scroll**, and **performance optimizations** to ensure a professional user experience across all devices.  
 
